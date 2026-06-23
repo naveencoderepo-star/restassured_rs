@@ -1,104 +1,94 @@
-i want one prompt to make my learing rest assured easier and faster, and mainly quickly recollect the concept when i visit the code and interview will be easy to crack the code, i was learing via Rahul shetty Rest assured automation via Udemy so tell provide the best code with commanded line for explanation in easy way and what java concepts is used there and why it is used and simplified all commanded lines and beautify the code
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 
+ * Class Name: Basics
+ *
+ * Purpose:
+ * This class validates the Add Place API using Rest Assured.
+ *
+ * API Scenario:
+ * 1. Set base URI
+ * 2. Prepare request using query parameter, header, and body
+ * 3. Hit POST API
+ * 4. Validate status code, response body, and response header
+ * 5. Extract full response as String
+ * 6. Parse JSON response using JsonPath
+ * 7. Extract place_id from response
+ */
+public class Basics {
 
+    public static void main(String[] args) {
 
-Gpt 5 prompt:
+        // Base URI means main domain/root URL of the API.
+        // Memory Hint: baseURI = API oda main address.
+        RestAssured.baseURI = "https://rahulshettyacademy.com";
 
-You are a Senior SDET Automation Architect and Rest Assured trainer.
+        // Payload means request body.
+        // Here we are getting JSON body from Payload class using static method.
+        // This keeps main test code clean.
+        String requestPayload = Payload.addPlacePayload();
 
-I am learning Rest Assured API Automation from Rahul Shetty Udemy course. I want to understand this code quickly, recollect concepts easily when I revisit the code, and prepare for interviews.
+        // Sending POST request and storing complete response as String.
+        String addPlaceResponse =
+                given()
+                        // Logs full request details: URL, headers, query params, body.
+                        // Useful for debugging when API fails.
+                        .log().all()
 
-Please analyze and improve the below Rest Assured Java code with the following rules:
+                        // Query parameter is added after ? in URL.
+                        // Final URL will contain: ?key=qaclick123
+                        .queryParam("key", "qaclick123")
 
-1. Do NOT change the actual business logic unless there is a clear mistake.
+                        // Header tells server that we are sending JSON body.
+                        .header("Content-Type", "application/json")
 
-2. Beautify and format the code professionally.
+                        // body() sends JSON payload/request body to API.
+                        .body(requestPayload)
 
-3. Add beginner-friendly comments for every important line.
+                .when()
+                        // post() hits the Add Place API endpoint/resource.
+                        .post("/maps/api/place/add/json")
 
-4. Explain comments in simple English + Tanglish style so I can remember easily.
+                .then()
+                        // assertThat() is used to validate response.
+                        .assertThat()
 
-5. For each important Rest Assured line, explain:
+                        // Validates HTTP status code.
+                        // 200 means request is successful.
+                        .statusCode(200)
 
-   * What this line does
-   * Why we use it
-   * What happens if we remove it
-   * Real-time API testing usage
-   * Interview point related to this line
+                        // Validates response body field "scope" value is "APP".
+                        .body("scope", equalTo("APP"))
 
-6. Clearly explain the Rest Assured flow:
+                        // Validates response header.
+                        // Note: Header values like Server can change, so this can be brittle.
+                        .headers("Server", "Apache/2.4.52 (Ubuntu)")
 
-   * given()
-   * when()
-   * then()
-   * log()
-   * statusCode()
-   * body()
-   * extract()
-   * response()
-   * JsonPath
-   * RequestSpecification
-   * ResponseSpecification
-   * Headers
-   * Query parameters
-   * Path parameters
-   * Payload/body
-   * Serialization
-   * Deserialization
-   * POJO usage
+                        // extract() allows us to take response data for later use.
+                        .extract()
 
-7. Explain what Java concepts are used in this code and why:
+                        // response() gets the complete API response.
+                        .response()
 
-   * Class
-   * Object
-   * Method
-   * Static method
-   * Static import
-   * String
-   * Array/List/Map if used
-   * Constructor if used
-   * Encapsulation if POJO is used
-   * Inheritance if framework structure uses Base class
-   * Polymorphism if used
-   * Exception handling if used
-   * Method chaining
-   * Builder pattern style
-   * TestNG/JUnit annotations if used
+                        // Converts response object into String format.
+                        .asString();
 
-8. Add interview-focused notes:
+        // Prints complete Add Place API response.
+        System.out.println(addPlaceResponse);
 
-   * Possible interview questions from this code
-   * Short and strong answers
-   * Common mistakes beginners make
-   * Best practices followed
-   * Best practices missing
+        // JsonPath is used to parse JSON response.
+        // Memory Hint: JsonPath = JSON response la irunthu value edukka use pannuvom.
+        JsonPath jsonPath = new JsonPath(addPlaceResponse);
 
-9. Add a quick memory section at the end:
+        // Extracting place_id from response JSON.
+        // This place_id can be reused in Get Place, Update Place, Delete Place APIs.
+        String placeId = jsonPath.getString("place_id");
 
-   * Simple one-line memory hint for each concept
-   * Example: given() = prepare request, when() = send request, then() = validate response
-
-10. If the code can be improved, provide:
-
-* Improved version of the code
-* Proper naming convention
-* Clean comments
-* Reusable method suggestions
-* Framework-level improvement suggestions
-
-11. Also provide a small README-style summary:
-
-* What this class/test does
-* API scenario covered
-* Important Rest Assured methods used
-* Java concepts used
-* Interview revision notes
-
-Here is my code:
-
-PASTE_MY_CODE_HERE
-
-
-
-
+        // Prints extracted place_id.
+        System.out.println("Place ID: " + placeId);
+    }
+}
