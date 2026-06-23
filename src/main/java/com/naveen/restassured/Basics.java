@@ -1,42 +1,49 @@
 package com.naveen.restassured;
+
+// RestAssured class is used to set common API details like baseURI
 import io.restassured.RestAssured;
-import static io.restassured.RestAssured.given;
 
+// Static import allows us to directly use given() instead of RestAssured.given()
+//import static io.restassured.RestAssured.given;
 
-
-// First we are going to validate Add place api and status response
-
+/**
+ * This class validates the Add Place API using Rest Assured.
+ *
+ * Scenario:
+ * 1. Set base URI
+ * 2. Add query parameter API key
+ * 3. Add request header
+ * 4. Send JSON payload/body
+ * 5. Hit POST API
+ * 6. Validate response status code
+ */
 public class Basics {
+
     public static void main(String[] args) {
 
         RestAssured.baseURI = "https://rahulshettyacademy.com";
 
-        given().queryParam("key", "qaclick123")
-                .header("Content-Type", "application/json")
-                .body("{\n" +
-                        "  \"location\": {\n" +
-                        "    \"lat\": -38.383494,\n" +
-                        "    \"lng\": 33.427362\n" +
-                        "  },\n" +
-                        "  \"accuracy\": 50,\n" +
-                        "  \"name\": \"Frontline house\",\n" +
-                        "  \"phone_number\": \"(+91) 983 893 3937\",\n" +
-                        "  \"address\": \"29, side layout, cohen 09\",\n" +
-                        "  \"types\": [\n" +
-                        "    \"shoe park\",\n" +
-                        "    \"shop\"\n" +
-                        "  ],\n" +
-                        "  \"website\": \"http://google.com\",\n" +
-                        "  \"language\": \"French-IN\"\n" +
-                        "}")
+        String addPlacePayload = "{\n" +
+                "  \"location\": {\n" +
+                "    \"lat\": -38.383494,\n" +
+                "    \"lng\": 33.427362\n" +
+                "  },\n" +
+                "  \"accuracy\": 50,\n" +
+                "  \"name\": \"Frontline house\",\n" +
+                "  \"phone_number\": \"(+91) 983 893 3937\",\n" +
+                "  \"address\": \"29, side layout, cohen 09\",\n" +
+                "  \"types\": [\n" +
+                "    \"shoe park\",\n" +
+                "    \"shop\"\n" +
+                "  ],\n" +
+                "  \"website\": \"http://google.com\",\n" +
+                "  \"language\": \"French-IN\"\n" +
+                "}";
 
-                // Http & resource is under when method
+        RestAssured.given().queryParam("key", "qaclick123").header("Content-Type", "application/json").body(addPlacePayload)
 
-                .when().post("maps/api/place/add/json")
+                .when().post("/maps/api/place/add/json")
 
-                // Asserting the status code and all the details here
-
-                .then().log().all().assertThat().statusCode(209); 
+                .then().log().all().assertThat().statusCode(200);
     }
-
 }
