@@ -3,7 +3,7 @@ i want one prompt to make my learing rest assured easier and faster, and mainly 
 
 
 
-gpt 5 prompt:
+Gpt 5 prompt:
 
 You are a Senior SDET Automation Architect and Rest Assured trainer.
 

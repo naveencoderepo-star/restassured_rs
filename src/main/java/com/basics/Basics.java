@@ -1,10 +1,8 @@
-package com.naveen.restassured;
+package com.basics;
 
-// RestAssured class is used to set common API details like baseURI
 import io.restassured.RestAssured;
-
-// Static import allows us to directly use given() instead of RestAssured.given()
-//import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static io.restassured.RestAssured.given;
 
 /**
  * This class validates the Add Place API using Rest Assured.
@@ -40,10 +38,8 @@ public class Basics {
                 "  \"language\": \"French-IN\"\n" +
                 "}";
 
-        RestAssured.given().queryParam("key", "qaclick123").header("Content-Type", "application/json").body(addPlacePayload)
-
+        given().queryParam("key", "qaclick123").header("Content-Type", "application/json").body(addPlacePayload)
                 .when().post("/maps/api/place/add/json")
-
-                .then().log().all().assertThat().statusCode(200);
+                .then().log().all().assertThat().statusCode(200).body("scope", equalTo("APP")).headers("Server", "Apache/2.4.52 (Ubuntu)");
     }
 }
