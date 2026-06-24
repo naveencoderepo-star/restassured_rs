@@ -24,6 +24,7 @@ public class Basics {
         String addPlacePayload = Payload.addPlacePayload();
 
         // Step 1: Add Place API
+        System.out.println("*******************  STARTED POST API CREATE NEW PLACE ID   ****************");
         String addPlaceResponse =
                 given()
                         .log().all()
@@ -43,6 +44,7 @@ public class Basics {
                         .asString();
 
         System.out.println(addPlaceResponse);
+        System.out.println("*******************  END POST API CREATE NEW PLACE ID   ****************");
 
         // JsonPath is used to read/extract value from JSON response
         JsonPath jsonPath = new JsonPath(addPlaceResponse);
@@ -54,12 +56,19 @@ public class Basics {
 
         // Step 2: Pass extracted place_id into Update payload
         String updatePayload = Payload.updatePayload(placeId);
+        String newAddress = "Parrys";
+
+        System.out.println("*******************  STARTED PUT API UPDATE NEW PLACE ID   ****************");
 
         // Step 3: Update Place API
-        given()
+        String updateResponse = given()
                 .log().all()
                 .header("Content-Type", "application/json")
-                .body(updatePayload)
+                .body("{\n" +
+                        "\"place_id\":\"" + placeId + "\",\n" +
+                        "\"address\":\"" + newAddress + "\",\n" +
+                        "\"key\":\"qaclick123\"\n" +
+                        "}")
 
                 .when()
                 .put("/maps/api/place/update/json")
@@ -68,6 +77,25 @@ public class Basics {
                 .log().all()
                 .assertThat()
                 .statusCode(200)
-                .body("msg", equalTo("Address successfully updated"));
+                .body("msg", equalTo("Address successfully updated")).extract().response().asString();
+
+        System.out.println(updateResponse);
+
+        System.out.println("*******************  END PUT API UPDATE NEW PLACE ID   ****************");
+
+        System.out.println("*******************  STARTED GET API USING PLACE ID   ****************");
+
+        // GET API
+
+        String getResponseBody = given().queryParam("key", "qaclick123").queryParam("place_id", placeId)
+
+                .when().get("maps/api/place/get/json")
+                .then().log().all().assertThat().statusCode(200).extract().response().asString();
+
+        JsonPath js1 = new JsonPath(getResponseBody);
+        String actualAddress = js1.getString("address");
+
+        System.out.println("Actual address  : " + actualAddress);
+
     }
 }
