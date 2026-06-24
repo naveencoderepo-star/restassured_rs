@@ -1,65 +1,114 @@
 package com.basics;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import static org.hamcrest.Matchers.equalTo;
+import io.restassured.path.json.JsonPath;
+import org.junit.Assert;
+
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
- * This class validates the Add Place API using Rest Assured.
- *
+ * This class validates Add Place API and Update Place API using Rest Assured.
+ * 
  * Scenario:
- * 1. Set base URI
- * 2. Add query parameter API key
- * 3. Add request header
- * 4. Send JSON payload/body
- * 5. Hit POST API
- * 6. Validate response status code
- * 7. Extract place_id from response
- * 8. Update the place using PUT API with extracted place_id
- * 9. Validate PUT response
+ * 1. Add a new place using POST API
+ * 2. Extract place_id from Add Place response
+ * 3. Update the place address using PUT API with extracted place_id
+ * 4. Retrieve the updated place using GET API
+ * 5. Validate that the updated address matches the expected address
  */
 public class Basics {
 
     public static void main(String[] args) {
-
+        
+        // Set the base URI for all API calls
         RestAssured.baseURI = "https://rahulshettyacademy.com";
 
-        String addPlacePayload = "{\n" +
-                "  \"location\": {\n" +
-                "    \"lat\": -38.383494,\n" +
-                "    \"lng\": 33.427362\n" +
-                "  },\n" +
-                "  \"accuracy\": 50,\n" +
-                "  \"name\": \"Frontline house\",\n" +
-                "  \"phone_number\": \"(+91) 983 893 3937\",\n" +
-                "  \"address\": \"29, side layout, cohen 09\",\n" +
-                "  \"types\": [\n" +
-                "    \"shoe park\",\n" +
-                "    \"shop\"\n" +
-                "  ],\n" +
-                "  \"website\": \"http://google.com\",\n" +
-                "  \"language\": \"French-IN\"\n" +
-                "}";
+        // Get the JSON payload for adding a new place
+        String addPlacePayload = Payload.addPlacePayload();
 
-        // POST request to add a new place
-        Response response = given().queryParam("key", "qaclick123").header("Content-Type", "application/json").body(addPlacePayload)
-                .when().post("/maps/api/place/add/json")
-                .then().log().all().assertThat().statusCode(200).body("scope", equalTo("APP"))
-                .extract().response();
+        // ==================== STEP 1: POST API - ADD NEW PLACE ====================
+        System.out.println("\n*******************  STARTED POST API - CREATE NEW PLACE  ****************");
+        
+        String addPlaceResponse =
+                given()
+                        .log().all()
+                        .queryParam("key", "qaclick123")
+                        .header("Content-Type", "application/json")
+                        .body(addPlacePayload)
+                        .when()
+                        .post("/maps/api/place/add/json")
+                        .then()
+                        .assertThat()
+                        .statusCode(200)
+                        .body("scope", equalTo("APP"))
+                        .extract()
+                        .response()
+                        .asString();
 
-        String placeId = response.jsonPath().getString("place_id");
-        System.out.println("Place ID: " + placeId);
+        System.out.println(addPlaceResponse);
+        System.out.println("*******************  END POST API - CREATE NEW PLACE  ******************\n");
 
-        // PUT request to update the place with the extracted place_id
-        String updatePlacePayload = "{\n" +
-                "  \"place_id\": \"" + placeId + "\",\n" +
-                "  \"address\": \"70 winter walk, USA\",\n" +
-                "  \"key\": \"qaclick123\"\n" +
-                "}";
+        // Extract place_id from the Add Place API response
+        JsonPath jsonPath = new JsonPath(addPlaceResponse);
+        String placeId = jsonPath.getString("place_id");
+        System.out.println("✓ Extracted Place ID: " + placeId);
 
-        given().queryParam("key", "qaclick123").header("Content-Type", "application/json").body(updatePlacePayload)
-                .when().put("/maps/api/place/update/json")
-                .then().log().all().assertThat().statusCode(200);
+        // ==================== STEP 2: PUT API - UPDATE PLACE ADDRESS ====================
+        String newAddress = "Parrys";
+        System.out.println("\n*******************  STARTED PUT API - UPDATE PLACE ADDRESS  ******************");
+
+        String updateResponse = given()
+                .log().all()
+                .header("Content-Type", "application/json")
+                .body("{\n" +
+                        "\"place_id\":\"" + placeId + "\",\n" +
+                        "\"address\":\"" + newAddress + "\",\n" +
+                        "\"key\":\"qaclick123\"\n" +
+                        "}")
+                .when()
+                .put("/maps/api/place/update/json")
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(200)
+                .body("msg", equalTo("Address successfully updated"))
+                .extract()
+                .response()
+                .asString();
+
+        System.out.println(updateResponse);
+        System.out.println("*******************  END PUT API - UPDATE PLACE ADDRESS  ******************\n");
+
+        // ==================== STEP 3: GET API - RETRIEVE UPDATED PLACE ====================
+        System.out.println("*******************  STARTED GET API - FETCH UPDATED PLACE  ******************");
+
+        String getResponseBody = given()
+                .queryParam("key", "qaclick123")
+                .queryParam("place_id", placeId)
+                .when()
+                .get("/maps/api/place/get/json")
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(200)
+                .extract()
+                .response()
+                .asString();
+
+        // ==================== STEP 4: VALIDATE UPDATED ADDRESS ====================
+        JsonPath js1 = new JsonPath(getResponseBody);
+        String actualAddress = js1.getString("address");
+
+        System.out.println("*******************  END GET API - FETCH UPDATED PLACE  ******************\n");
+        
+        // Print expected vs actual for clear visibility
+        System.out.println("========== ADDRESS VALIDATION ==========");
+        System.out.println("Expected address: " + newAddress);
+        System.out.println("Actual address  : " + actualAddress);
+        
+        // Assert that the updated address matches the expected address (expected first, then actual)
+        Assert.assertEquals(newAddress, actualAddress);
+        System.out.println("✓ Address validation passed!\n");
     }
 }
