@@ -9,21 +9,23 @@ public class DynamicJson {
     @Test
     public void addBook() {
 
-        RestAssured.baseURI = "http://216.10.245.166";
+        RestAssured.baseURI = "https://gorest.in";
 
-      String response=  given().header("Content-Type", "application/json")
-               .body(Payload.addBook())
-               .when().post("/Library/Addbook.php")
-               .then().log().all().assertThat().statusCode(200).extract().response().asString();
-
-
-      JsonPath jsonPath = ReUsableMethods.rawStringToJsonPath(response);
-      String extractedId = jsonPath.get("ID");
-
-             System.out.println("Extracted ID: " + extractedId);
+        String response = given().header("Content-Type", "application/json")
+                .body(Payload.addBook("ujassi", "17658"))
+                .when().post("/public/v2/users")
+                .then().assertThat().statusCode(200).extract().response().asString();
 
 
+        JsonPath jsonPath = ReUsableMethods.rawStringToJsonPath(response);
+        String extractedId = jsonPath.get("ID");
+
+        System.out.println("Extracted ID: " + extractedId);
 
 
-   }
+    }
+
+
+
+
 }

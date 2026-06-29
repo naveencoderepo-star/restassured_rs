@@ -20,85 +20,26 @@ public class Payload {
                 "}";
     }
 
-    // We are passing placeId dynamically from Add Place API response
-    public static String updatePayload(String placeId) {
-
-        return "{\n" +
-                "  \"place_id\": \"" + placeId + "\",\n" +
-                "  \"address\": \"70 winter walk, USA\",\n" +
-                "  \"key\": \"qaclick123\"\n" +
-                "}";
-    }
-
-    public static String coursePrice() {
-
-        return "{\n" +
-                "  \"dashboard\": {\n" +
-                "    \"purchaseAmount\": 1162,\n" +
-                "    \"website\": \"rahulshettyacademy.com\"\n" +
-                "  },\n" +
-                "  \"courses\": [\n" +
-                "    {\n" +
-                "      \"title\": \"Selenium Python\",\n" +
-                "      \"price\": 50,\n" +
-                "      \"copies\": 6\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"title\": \"Cypress\",\n" +
-                "      \"price\": 40,\n" +
-                "      \"copies\": 4\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"title\": \"RPA\",\n" +
-                "      \"price\": 45,\n" +
-                "      \"copies\": 10\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"title\": \"Appium\",\n" +
-                "      \"price\": 36,\n" +
-                "      \"copies\": 7\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-    }
-
-    public static String addBook() {
+    public static String addBook(String isbnVal, String aisleVal) {
 
         return "{\n" +
                 "  \"name\": \"Learn Appium Automation with Java\",\n" +
-                "  \"isbn\": \"bcd\",\n" +
-                "  \"aisle\": \"12127\",\n" +
-                "  \"author\": \"John Doe\"\n" +
+                "  \"isbn\": \"" + isbnVal + "\",\n" +
+                "  \"aisle\": \"" + aisleVal + "\",\n" +
+                "  \"author\": \"John iio\"\n" +
                 "}";
     }
 
+    // GoRest API - Create User with Dynamic Timestamp Email
+    public static String createUserWithTimestamp() {
+        String dynamicEmail = "naveen" + System.currentTimeMillis() + "@test.com";
+        return "{\n" +
+                "  \"name\": \"Naveen Kumar\",\n" +
+                "  \"email\": \"" + dynamicEmail + "\",\n" +
+                "  \"gender\": \"male\",\n" +
+                "  \"status\": \"active\"\n" +
+                "}";
+    }
+
+
 }
-
-/*
-
-{
-        "dashboard": {
-        "purchaseAmount": 910,
-        "website": "rahulshettyacademy.com"
-        },
-
-        "courses": [
-        {
-        "title": "Selenium Python",
-        "price": 50,
-        "copies": 6
-        },
-        {
-        "title": "Cypress",
-        "price": 40,
-        "copies": 4
-        },
-        {
-        "title": "RPA",
-        "price": 45,
-        "copies": 10
-        }
-        ]
-        }
-
-        */

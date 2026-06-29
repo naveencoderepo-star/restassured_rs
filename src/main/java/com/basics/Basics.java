@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.equalTo;
  * 4. Retrieve the updated place using GET API
  * 5. Validate that the updated address matches the expected address
  */
-public class Basics {
+public class Basics  {
 
     public static void main(String[] args) {
         
@@ -25,7 +25,7 @@ public class Basics {
         RestAssured.baseURI = "https://rahulshettyacademy.com";
 
         // Get the JSON payload for adding a new place
-        String addPlacePayload = Payload.addPlacePayload();
+//        String addPlacePayload = Payload.addPlacePayload();
 
         // ==================== STEP 1: POST API - ADD NEW PLACE ====================
         System.out.println("\n*******************  STARTED POST API - CREATE NEW PLACE  ****************");
@@ -35,7 +35,7 @@ public class Basics {
                         .log().all()
                         .queryParam("key", "qaclick123")
                         .header("Content-Type", "application/json")
-                        .body(addPlacePayload)
+//                        .body(addPlacePayload)
                         .when()
                         .post("/maps/api/place/add/json")
                         .then()
