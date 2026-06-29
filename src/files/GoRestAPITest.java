@@ -1,6 +1,8 @@
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -14,6 +16,7 @@ public class GoRestAPITest {
         RestAssured.baseURI = "https://gorest.in/public/v2";
 
 
+// Create a user with a dynamic timestamp email
         String response = given().header("Content-Type", "application/json").header("Authorization", "Bearer demo-token")
 
                 .body(Payload.createUserWithTimestamp())
@@ -25,20 +28,23 @@ public class GoRestAPITest {
         String generatedId = String.valueOf(createUserResponse.getInt("id"));
 
 
-        given().header("Content-Type", "application/json").header("Authorization", "Bearer demo-token")
+// Delete the user using the generated ID
+            given().header("Content-Type", "application/json").header("Authorization", "Bearer demo-token")
 
-                .when().delete("/users/" + generatedId)
-                .then().log().all().statusCode(204);
+                    .when().delete("/users/" + generatedId)
+                    .then().log().all().statusCode(204);
 
-        System.out.println("Deleted User ID: " + generatedId);
+            System.out.println("Deleted User ID: " + generatedId);
 
 
-        given().header("Content-Type", "application/json").header("Authorization", "Bearer demo-token")
-                .when().get("/users/" + generatedId)
-                .then().log().all().statusCode(404).assertThat().body("message", equalTo("Resource not found"));
+//Get api to verify the user is deleted and should return 404
+            System.out.println("Verifying deletion of User ID: " + generatedId);
+            given().header("Content-Type", "application/json").header("Authorization", "Bearer demo-token")
+                    .when().get("/users/" + generatedId)
+                    .then().log().all().statusCode(404).assertThat().body("message", equalTo("Resource not found"));
+
+
+        }
 
 
     }
-
-
-}

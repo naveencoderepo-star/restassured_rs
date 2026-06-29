@@ -1,12 +1,12 @@
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import static io.restassured.RestAssured.given;
 
 public class DynamicJson {
 
-    @Test
+    @Test(dataProvider = "BooksData")
     public void addBook() {
 
         RestAssured.baseURI = "https://gorest.in";
@@ -25,7 +25,16 @@ public class DynamicJson {
 
     }
 
+    @DataProvider(name = "BooksData")
+    public Object[][] getData() {
 
+        // array = collection of elements
+        // Multidimensional array = collection of arrays
+
+        return new Object[][]{{"ieoheo", "8775"}, {"fhksdhf", "9886"}, {"array3", "1234"}};
+
+
+    }
 
 
 }
