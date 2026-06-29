@@ -22,13 +22,5 @@ public class Payload {
                 "}";
     }
 
-    // We are passing placeId dynamically from Add Place API response
-    public static String updatePayload(String placeId) {
 
-        return "{\n" +
-                "  \"place_id\": \"" + placeId + "\",\n" +
-                "  \"address\": \"70 winter walk, USA\",\n" +
-                "  \"key\": \"qaclick123\"\n" +
-                "}";
-    }
 }

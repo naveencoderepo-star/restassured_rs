@@ -30,7 +30,7 @@ public class Payload {
                 "}";
     }
 
-    public static String coursePrice(){
+    public static String coursePrice() {
 
         return "{\n" +
                 "  \"dashboard\": {\n" +
@@ -62,15 +62,16 @@ public class Payload {
                 "}";
     }
 
+    public static String addBook() {
 
-    public static String addBook(){
         return "{\n" +
                 "  \"name\": \"Learn Appium Automation with Java\",\n" +
-                "  \"isbn\": \"bczd\",\n" +
-                "  \"isle\": \"2270\",\n" +
-                "  \"author\": \"John foe\"\n" +
+                "  \"isbn\": \"bcd\",\n" +
+                "  \"aisle\": \"12127\",\n" +
+                "  \"author\": \"John Doe\"\n" +
                 "}";
     }
+
 }
 
 /*
