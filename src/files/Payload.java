@@ -41,5 +41,16 @@ public class Payload {
                 "}";
     }
 
+    // Create User with Dynamic Data from DataProvider
+    public static String createUserWithDynamicData(String name, String gender, String status) {
+        String dynamicEmail = name.toLowerCase().replace(" ", "") + System.currentTimeMillis() + "@test.com";
+        return "{\n" +
+                "  \"name\": \"" + name + "\",\n" +
+                "  \"email\": \"" + dynamicEmail + "\",\n" +
+                "  \"gender\": \"" + gender + "\",\n" +
+                "  \"status\": \"" + status + "\"\n" +
+                "}";
+    }
+
 
 }

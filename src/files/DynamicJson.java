@@ -7,12 +7,11 @@ import static io.restassured.RestAssured.given;
 public class DynamicJson {
 
     @Test(dataProvider = "BooksData")
-    public void addBook() {
+    public void addBook(String isbn, String aisle) {
 
         RestAssured.baseURI = "https://gorest.in";
 
-        String response = given().header("Content-Type", "application/json")
-                .body(Payload.addBook("ujassi", "17658"))
+        String response = given().header("Content-Type", "application/json").body(Payload.addBook(isbn, aisle))
                 .when().post("/public/v2/users")
                 .then().assertThat().statusCode(200).extract().response().asString();
 
@@ -21,20 +20,11 @@ public class DynamicJson {
         String extractedId = jsonPath.get("ID");
 
         System.out.println("Extracted ID: " + extractedId);
-
-
     }
 
     @DataProvider(name = "BooksData")
     public Object[][] getData() {
 
-        // array = collection of elements
-        // Multidimensional array = collection of arrays
-
-        return new Object[][]{{"ieoheo", "8775"}, {"fhksdhf", "9886"}, {"array3", "1234"}};
-
-
+        return new Object[][]{{"ieoheo", "8775"}, {"fhksdhf", "9886"}, {"ghgjj", "1234"}};
     }
-
-
 }
