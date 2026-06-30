@@ -2,12 +2,18 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.junit.Assert;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
  * This class validates Add Place API and Update Place API using Rest Assured.
- * 
+ * <p>
  * Scenario:
  * 1. Add a new place using POST API
  * 2. Extract place_id from Add Place response
@@ -17,8 +23,8 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class Basics {
 
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws IOException {
+
         // Set the base URI for all API calls
         RestAssured.baseURI = "https://rahulshettyacademy.com";
 
@@ -27,13 +33,13 @@ public class Basics {
 
         // ==================== STEP 1: POST API - ADD NEW PLACE ====================
         System.out.println("\n*******************  STARTED POST API - CREATE NEW PLACE  ****************");
-        
+
         String addPlaceResponse =
                 given()
                         .log().all()
                         .queryParam("key", "qaclick123")
                         .header("Content-Type", "application/json")
-                        .body(addPlacePayload)
+                        .body(new String(Files.readAllBytes(Paths.get("C:\\Users\\coher\\Downloads\\addPlace.json"))))
                         .when()
                         .post("/maps/api/place/add/json")
                         .then()
@@ -95,17 +101,17 @@ public class Basics {
                 .asString();
 
         // ==================== STEP 4: VALIDATE UPDATED ADDRESS ====================
-       JsonPath js1 = ReUsableMethods.rawStringToJsonPath(getPlaceResponse);
+        JsonPath js1 = ReUsableMethods.rawStringToJsonPath(getPlaceResponse);
         String actualAddress = js1.getString("address");
 
         System.out.println("*******************  END GET API - FETCH UPDATED PLACE  ******************\n");
-        
-
-         System.out.println("Expected address: " + newAddress);
-         System.out.println("Actual address  : " + actualAddress);
 
 
-         Assert.assertEquals(newAddress, actualAddress);
-         //                 Expected value, Actual Output
+        System.out.println("Expected address: " + newAddress);
+        System.out.println("Actual address  : " + actualAddress);
+
+
+        Assert.assertEquals(newAddress, actualAddress);
+        //                 Expected value, Actual Output
     }
 }

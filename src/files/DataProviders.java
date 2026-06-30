@@ -22,6 +22,13 @@ public class DataProviders {
         JsonPath createUserResponse = new JsonPath(response);
         String generatedId = String.valueOf(createUserResponse.getInt("id"));
         System.out.println("Generated User ID: " + generatedId);
+
+        given().header("Content-Type", "application/json")
+                .header("Authorization", "Bearer demo-token").body("")
+                .when().delete("/users/" + generatedId)
+                .then().log().all().statusCode(204);
+
+        System.out.println("Deleted User ID: " + generatedId);
     }
 
     @DataProvider(name = "UserData")
@@ -32,5 +39,6 @@ public class DataProviders {
                 {"Rajesh Patel", "male", "inactive"}
         };
     }
+
 
 }
