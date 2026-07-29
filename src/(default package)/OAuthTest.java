@@ -39,13 +39,17 @@ public class OAuthTest {
 
         // To get the course details
 
-        String response2 = given().queryParam("access_token", accessToken)
+        GetCourse gc = given().queryParam("access_token", accessToken)
                 .when().log().all()
-                .get("https://rahulshettyacademy.com/oauthapi/getCourseDetails").asString();
+                .get("https://rahulshettyacademy.com/oauthapi/getCourseDetails").as(GetCourse.class);
 
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(response2);
+        System.out.println(gc);
+
+        System.out.println(gc.getLinkedIn());
+        System.out.println(gc.getInstructor());
+
 
     }
 }

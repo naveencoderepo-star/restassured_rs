@@ -6,6 +6,7 @@ public class MobileAutomation {
     private String price;
 
     public String getPrice() {
+
         return price;
     }
 
