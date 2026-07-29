@@ -1,3 +1,4 @@
+
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
@@ -8,7 +9,9 @@ import static io.restassured.RestAssured.given;
 
 public class BugTest {
 
+
     public static void main(String[] args) {
+
 
         // ==========================================
         // 1. INITIAL SETUP & CONFIGURATION
@@ -17,7 +20,7 @@ public class BugTest {
         RestAssured.baseURI = "https://naveendocuments777.atlassian.net/";
 
         String email = "naveendocuments777@gmail.com";
-        String apiToken = System.getenv("ATLASSIAN_API_TOKEN"); // Load from environment variable
+        String apiToken = System.getenv("JIRA_API_TOKEN"); // Use environment variable
 
         // Generate Base64 Authorization Header
         String rawAuth = email + ":" + apiToken;
