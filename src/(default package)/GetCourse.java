@@ -3,17 +3,16 @@ public class GetCourse {
     private String url;
     private String services;
     private String expertise;
-    private String courses;
+    private Courses courses;
     private String linkedIn;
+    private String instructor;
 
-
-    public String getCourses() {
-        return courses;
+    public String getLinkedIn() {
+        return linkedIn;
     }
 
-    public void setCourses(String courses) {
-
-        this.courses = courses;
+    public void setLinkedIn(String linkedIn) {
+        this.linkedIn = linkedIn;
     }
 
     public String getUrl() {
@@ -21,7 +20,6 @@ public class GetCourse {
     }
 
     public void setUrl(String url) {
-
         this.url = url;
     }
 
@@ -30,7 +28,6 @@ public class GetCourse {
     }
 
     public void setServices(String services) {
-
         this.services = services;
     }
 
@@ -39,18 +36,26 @@ public class GetCourse {
     }
 
     public void setExpertise(String expertise) {
-
         this.expertise = expertise;
     }
 
-    public String getLinkedIn() {
-
-        return linkedIn;
+    public Courses getCourses() {
+        return courses;
     }
 
-    public void setLinkedIn(String linkedIn) {
-        this.linkedIn = linkedIn;
+    public void setCourses(Courses courses) {
+        this.courses = courses;
     }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
+
+
 
 
 }

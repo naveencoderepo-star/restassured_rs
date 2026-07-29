@@ -1,30 +1,36 @@
+import java.util.List;
+
 public class Courses {
 
-    private String webAutomation;
-    private String api;
-    private String mobile;
 
-    public String getWebAutomation() {
-        return webAutomation;
-    }
+    private List<ApiAutomation> api;
+    private List<MobileAutomation> mobile;
+    private List<WebAutomation> webAutomation;
 
-    public void setWebAutomation(String webAutomation) {
-        this.webAutomation = webAutomation;
-    }
 
-    public String getApi() {
+    public List<ApiAutomation> getApi() {
         return api;
     }
 
-    public void setApi(String api) {
+    public void setApi(List<ApiAutomation> api) {
         this.api = api;
     }
 
-    public String getMobile() {
+    public List<WebAutomation> getWebAutomation() {
+        return webAutomation;
+    }
+
+    public void setWebAutomation(List<WebAutomation> webAutomation) {
+        this.webAutomation = webAutomation;
+    }
+
+    public List<MobileAutomation> getMobile() {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
+    public void setMobile(List<MobileAutomation> mobile) {
         this.mobile = mobile;
     }
+
+
 }
