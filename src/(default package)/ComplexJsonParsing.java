@@ -34,7 +34,7 @@ public class ComplexJsonParsing {
 
         JsonPath js1 = new JsonPath(mockCourseResponse);
 
-       // To get the course count
+        // To get the course count
         int count = js1.getInt("courses.size()");
         System.out.println("Total no of courses : " + count);
 
@@ -55,19 +55,18 @@ public class ComplexJsonParsing {
 
         // To get the copies sold by RPA course
 
-        for(int i =0; i<count; i++){
-           String currentTitle =  js1.get("courses["+i+"].title");
+        for (int i = 0; i < count; i++) {
+            String currentTitle = js1.get("courses[" + i + "].title");
 
-           if(currentTitle.equalsIgnoreCase("RPA")){
-               int copies =  js1.getInt("courses["+i+"].copies");
-               System.out.println("Copies sold by RPA course: " + copies);
-               break;
-           }
+            if (currentTitle.equalsIgnoreCase("RPA")) {
+                int copies = js1.getInt("courses[" + i + "].copies");
+                System.out.println("Copies sold by RPA course: " + copies);
+                break;
+            }
         }
 
 
         // To get the overall revenue of all courses and validate it with purchase amount
-
 
 
     }

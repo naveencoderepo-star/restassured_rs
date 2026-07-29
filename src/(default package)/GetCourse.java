@@ -12,6 +12,7 @@ public class GetCourse {
     }
 
     public void setCourses(String courses) {
+
         this.courses = courses;
     }
 
@@ -20,6 +21,7 @@ public class GetCourse {
     }
 
     public void setUrl(String url) {
+
         this.url = url;
     }
 
@@ -28,6 +30,7 @@ public class GetCourse {
     }
 
     public void setServices(String services) {
+
         this.services = services;
     }
 
@@ -36,10 +39,12 @@ public class GetCourse {
     }
 
     public void setExpertise(String expertise) {
+
         this.expertise = expertise;
     }
 
     public String getLinkedIn() {
+
         return linkedIn;
     }
 
