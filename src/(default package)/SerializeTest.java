@@ -1,14 +1,14 @@
 import io.restassured.RestAssured;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static io.restassured.RestAssured.given;
+
+
 
 public class SerializeTest {
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
 
         RestAssured.baseURI = "https://rahulshettyacademy.com/";
 
